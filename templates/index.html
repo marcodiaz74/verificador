@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Verificador Jurídico Colombiano</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Verificador Jurídico Colombiano</h1>
+    <p>Pega texto o sube un archivo (.txt, .docx, .pdf) para auditar citas normativas y jurisprudenciales.</p>
+
+    <form action="/submit" method="post" enctype="multipart/form-data">
+      <label for="file">Subir archivo (opcional)</label>
+      <input type="file" id="file" name="file" accept=".txt,.docx,.pdf">
+
+      <label for="text_input">O pegar texto</label>
+      <textarea id="text_input" name="text_input" rows="12" placeholder="Pega aquí el texto del memorial, sentencia o escrito..."></textarea>
+
+      <button type="submit">Analizar</button>
+    </form>
+
+    <div class="notes">
+      <strong>Nota:</strong>
+      <ul>
+        <li>Soporte para <em>docx</em> y <em>pdf</em> depende de librerías opcionales instaladas.</li>
+        <li>Si no instalaste las librerías, sube .txt o pega el texto.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

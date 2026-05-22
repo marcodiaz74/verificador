@@ -1,0 +1,71 @@
+<!-- templates/report.html -->
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Reporte - Verificador Jurídico</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Reporte de verificación</h1>
+
+    <a href="/">← Nueva verificación</a>
+
+    <h2>Resumen</h2>
+    <p><strong>Total referencias encontradas:</strong> {{ results|length }}</p>
+
+    {% if results %}
+      <table class="results">
+        <thead>
+          <tr>
+            <th>Referencia</th>
+            <th>Categoría</th>
+            <th>Normalizada</th>
+            <th>Hallazgos</th>
+            <th>Verificación</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in results %}
+            <tr>
+              <td>{{ r.reference_raw }}</td>
+              <td>{{ r.normalized.category }}</td>
+              <td>
+                {% if r.normalized.prefix %}{{ r.normalized.prefix }} {% endif %}
+                {% if r.normalized.number %}#{{ r.normalized.number }} {% endif %}
+                {% if r.normalized.year %}({{ r.normalized.year }}){% endif %}
+              </td>
+              <td>
+                {% if r.findings %}
+                  <ul>
+                    {% for f in r.findings %}
+                      <li><strong>{{ f.severity }}</strong>: {{ f.issue }}</li>
+                    {% endfor %}
+                  </ul>
+                {% else %}
+                  — Sin hallazgos
+                {% endif %}
+              </td>
+              <td>
+                <strong>{{ r.verification.status }}</strong><br>
+                Confianza: {{ r.verification.confidence or 0 }}<br>
+                {% if r.verification.source %}
+                  <a href="{{ r.verification.source }}" target="_blank">Fuente</a>
+                {% elif r.verification.detail %}
+                  {{ r.verification.detail }}
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No se encontraron referencias con los patrones configurados.</p>
+    {% endif %}
+
+    <h2>Texto analizado (fragmento)</h2>
+    <pre class="raw">{{ raw_text[:4000] }}</pre>
+  </div>
+</body>
+</html>
