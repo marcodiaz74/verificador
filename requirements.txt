@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+httpx
+beautifulsoup4
+pydantic
+python-docx
+pdfminer.six
+redis>=4.5.0
